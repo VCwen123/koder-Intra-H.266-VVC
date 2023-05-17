@@ -130,10 +130,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlockPrediction.cpp" />
+    <ClCompile Include="BlockTransformsQuantization.cpp" />
     <ClCompile Include="koder Intra H.266 VVC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlockPrediction.h" />
+    <ClInclude Include="BlockTransformsQuantization.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

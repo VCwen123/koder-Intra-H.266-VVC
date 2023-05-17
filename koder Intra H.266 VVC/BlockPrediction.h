@@ -2,7 +2,7 @@
 #include <vector>
 #include <opencv2/opencv.hpp>
 
-const int BlockSize = 32;
+const int BlockSize = 8;
 const int NumIntraModes = 3;  // Liczba trybów kodowania Intra
 
 struct Block {

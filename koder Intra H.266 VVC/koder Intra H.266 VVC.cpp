@@ -3,6 +3,7 @@
 #include <limits>
 #include <opencv2/opencv.hpp>
 #include "BlockPrediction.h"
+#include "BlockTransformsQuantization.h"
 
 // Funkcja do wczytywania bloku pikseli z obrazu
 Block readBlockFromImage(const cv::Mat& image, int startX, int startY) {
@@ -22,23 +23,28 @@ Block readBlockFromImage(const cv::Mat& image, int startX, int startY) {
 
 int main() {
     BlockPrediction bp;
+    BlockTransformsQuantization btq;
     cv::Mat image = cv::imread("lenna.png", cv::IMREAD_GRAYSCALE);
     if (image.empty()) {
         std::cout << "Failed to load image." << std::endl;
         return 1;
     }
 
-    int startX = 0; // Współrzędna x początku bloku
-    int startY = 0; // Współrzędna y początku bloku
+    int startX = 0;  // Współrzędna x początku bloku
+    int startY = 0;  // Współrzędna y początku bloku
 
     Block block = readBlockFromImage(image, startX, startY);
     PredictedBlock predictedBlock = bp.analyzeBlock(block);
+    TransformedBlock transformedBlock;
+    transformedBlock.mode = predictedBlock.mode;
+    transformedBlock.coefficients = btq.transformBlock(predictedBlock.pixels);
+    std::vector<std::vector<int>> quantizedBlock = btq.quantizeBlock(transformedBlock.coefficients);
 
-    std::cout << "Predicted mode: " << predictedBlock.mode << std::endl;
-    std::cout << "Predicted pixels:" << std::endl;
-    for (const auto& row : predictedBlock.pixels) {
-        for (int pixel : row) {
-            std::cout << pixel << " ";
+    std::cout << "Predicted mode: " << transformedBlock.mode << std::endl;
+    std::cout << "Quantized block:" << std::endl;
+    for (const auto& row : quantizedBlock) {
+        for (int value : row) {
+            std::cout << value << " ";
         }
         std::cout << std::endl;
     }
