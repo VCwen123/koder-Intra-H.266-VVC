@@ -34,3 +34,17 @@ std::vector<std::vector<int>> BlockTransformsQuantization::quantizeBlock(const s
 
     return quantized;
 }
+
+std::vector<int> BlockTransformsQuantization::quantizeVectors(const std::vector<std::string>& encodedData) {
+    std::vector<int> quantizedData;
+    quantizedData.reserve(encodedData.size());  // Rezerwujemy miejsce w wektorze dla efektywnoœci
+
+    for (const std::string& code : encodedData) {
+        // Wykonujemy kwantyzacjê kodu Huffmana
+        int quantizedValue = static_cast<int>(code.length());
+
+        quantizedData.push_back(quantizedValue);
+    }
+
+    return quantizedData;
+}
